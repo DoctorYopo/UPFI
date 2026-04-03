@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>UPFI - Ultra Processed Food Identifier</title>
+    <!-- We link to the manifest for the PWA functionalities -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Google Fonts for Modern Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tesseract.js (Loaded from local assets for offline capability) -->
+    <script src="assets/tesseract.min.js"></script>
+</head>
+<body>
+    <header class="app-header">
+        <h1>UPFI</h1>
+        <p>Ultra Processed Food Identifier</p>
+    </header>
+
+    <main class="app-container">
+        <!-- SCANNER VIEW -->
+        <section id="scanner-view" class="view active">
+            <div class="camera-container">
+                <video id="camera-stream" autoplay playsinline></video>
+                <canvas id="camera-canvas" class="hidden"></canvas>
+                <div class="camera-overlay">
+                    <div class="scan-target"></div>
+                </div>
+            </div>
+            <div class="scanner-controls">
+                <div id="status-indicator">Ready to scan. Align ingredients in the box.</div>
+                <button id="capture-btn" class="btn btn-primary">Take Snapshot</button>
+            </div>
+            
+            <div id="scan-results" class="results-card hidden">
+                <h2 id="result-title">Analysis Results</h2>
+                <div class="nova-badge" id="nova-badge">
+                    <span class="nova-score"></span>
+                    <span class="nova-desc"></span>
+                </div>
+                <div class="ingredients-list" id="ingredients-list">
+                    <!-- Ingredients will populate here -->
+                </div>
+                <div class="action-buttons">
+                    <button id="save-btn" class="btn btn-secondary">Save to History</button>
+                    <button id="share-btn" class="btn btn-secondary">Email Results</button>
+                    <button id="discard-btn" class="btn btn-outline">Discard</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- HISTORY VIEW -->
+        <section id="history-view" class="view hidden">
+            <h2>Scan History</h2>
+            <div id="history-list" class="history-list">
+                <!-- History items will be injected here via JS -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="app-nav">
+        <button class="nav-item active" data-target="scanner-view">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h4v4H4zm12 0h4v4h-4zM4 16h4v4H4zm12 0h4v4h-4z"/></svg>
+            <span>Scan</span>
+        </button>
+        <button class="nav-item" data-target="history-view">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>History</span>
+        </button>
+    </footer>
+
+    <script src="database.js"></script>
+    <script src="app.js"></script>
+    <script>
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').then(registration => {
+                    console.log('SW registered: ', registration);
+                }).catch(registrationError => {
+                    console.log('SW registration failed: ', registrationError);
+                });
+            });
+        }
+    </script>
+</body>
+</html>

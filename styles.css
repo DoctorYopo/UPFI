@@ -1,0 +1,323 @@
+:root {
+    --color-light-green: #e9f0e1;
+    --color-green: #A8C3A6;
+    --color-dark-green: #6A8668;
+    --color-beige: #FDFBF7;
+    --color-white: #FFFFFF;
+    --color-yellow: #FFD166;
+    --color-text: #2A3628;
+    --color-text-light: #6A7A68;
+    
+    /* Heatmap Colors */
+    --color-nova1: #A8C3A6; /* Low / No Risk */
+    --color-nova2: #FFD166; /* Mild / Natural Processed */
+    --color-nova3: #F77F00; /* Moderate Risk */
+    --color-nova4: #EF476F; /* High Risk / Ultra-processed */
+
+    --shadow-soft: 0 8px 30px rgba(0,0,0,0.06);
+    --border-radius: 16px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-beige);
+    color: var(--color-text);
+    -webkit-tap-highlight-color: transparent;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Header */
+.app-header {
+    background-color: var(--color-white);
+    padding: 1rem;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+    z-index: 10;
+}
+
+.app-header h1 {
+    font-size: 1.5rem;
+    color: var(--color-dark-green);
+    font-weight: 700;
+}
+
+.app-header p {
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+}
+
+/* Main Container */
+.app-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    position: relative;
+}
+
+/* Views */
+.view {
+    padding: 1rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.view:not(.active) {
+    display: none;
+}
+
+/* Scanner Area */
+.camera-container {
+    position: relative;
+    width: 100%;
+    background-color: #000;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    margin-bottom: 1rem;
+    min-height: 50vh;
+    box-shadow: var(--shadow-soft);
+}
+
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.camera-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    background: rgba(0,0,0,0.3);
+}
+
+.scan-target {
+    width: 80%;
+    height: 60%;
+    border: 2px dashed rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 0 0 4000px rgba(0,0,0,0.3);
+}
+
+.scanner-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+#status-indicator {
+    font-size: 0.9rem;
+    text-align: center;
+    color: var(--color-text-light);
+    background: var(--color-white);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow-soft);
+}
+
+/* Buttons */
+.btn {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.1s, opacity 0.2s;
+    width: 100%;
+    max-width: 300px;
+}
+
+.btn:active {
+    transform: scale(0.96);
+}
+
+.btn-primary {
+    background-color: var(--color-green);
+    color: var(--color-text);
+    box-shadow: 0 4px 15px rgba(168, 195, 166, 0.4);
+}
+
+.btn-secondary {
+    background-color: var(--color-yellow);
+    color: var(--color-text);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--color-text-light);
+    color: var(--color-text-light);
+}
+
+/* Results Card */
+.results-card {
+    background: var(--color-white);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-soft);
+    margin-top: 1rem;
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.results-card h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.nova-badge {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    color: white;
+    font-weight: bold;
+}
+
+.nova-score { font-size: 2rem; }
+.nova-desc { font-size: 1rem; line-height: 1.2; }
+
+/* Dynamic Badge Colors */
+.nova-badge.group-1 { background-color: var(--color-nova1); color: var(--color-text); }
+.nova-badge.group-2 { background-color: var(--color-nova2); color: var(--color-text); }
+.nova-badge.group-3 { background-color: var(--color-nova3); }
+.nova-badge.group-4 { background-color: var(--color-nova4); }
+
+.ingredients-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.additive-item {
+    padding: 0.75rem;
+    border-radius: 8px;
+    background: var(--color-light-green);
+    border-left: 4px solid var(--color-green);
+}
+
+.additive-item.risk-High { border-left-color: var(--color-nova4); background: #fcebeb;}
+.additive-item.risk-Moderate { border-left-color: var(--color-nova3); background: #fdf2e8;}
+.additive-item.risk-Low { border-left-color: var(--color-nova2); background: #fffcf0;}
+
+.additive-item strong {
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.additive-item small {
+    display: block;
+    color: var(--color-text-light);
+    font-size: 0.8rem;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* History */
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.history-card {
+    background: var(--color-white);
+    padding: 1.25rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.history-card .info h3 { margin-bottom: 0.25rem; font-size: 1rem; }
+.history-card .date { font-size: 0.8rem; color: var(--color-text-light); }
+.history-card .badge {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+}
+
+.history-card .badge.bg-1 { background-color: var(--color-nova1); color: var(--color-text); }
+.history-card .badge.bg-2 { background-color: var(--color-nova2); color: var(--color-text); }
+.history-card .badge.bg-3 { background-color: var(--color-nova3); }
+.history-card .badge.bg-4 { background-color: var(--color-nova4); }
+
+/* Navigation */
+.app-nav {
+    background: var(--color-white);
+    display: flex;
+    justify-content: space-around;
+    padding: 0.75rem;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+    z-index: 10;
+}
+
+.nav-item {
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--color-text-light);
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.nav-item svg {
+    width: 24px;
+    height: 24px;
+}
+
+.nav-item.active {
+    color: var(--color-green);
+    background-color: var(--color-light-green);
+}
+
+.nav-item.active svg {
+    stroke: var(--color-green);
+}

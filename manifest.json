@@ -1,0 +1,21 @@
+{
+  "name": "Ultra Processed Food Identifier",
+  "short_name": "UPFI",
+  "description": "Scan ingredient labels to identify ultra-processed food additives and their risks.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#FDFBF7",
+  "theme_color": "#A8C3A6",
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
